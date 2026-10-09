@@ -40,6 +40,7 @@ button { color: inherit; font: inherit; }
 .hero-kicker, .eyebrow, .section-label, .micro-label { font: 500 9px/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .hero-kicker { margin: 30px 0 16px; }
 .hero-kicker span { padding-inline: 5px; color: #4a534b; }
+.hero-role { margin: -8px 0 20px; color: #b9e86b; font-size: 16px; font-weight: 600; letter-spacing: .01em; }
 h1, h2, h3, p { margin-top: 0; }
 h1, h2, .contact-main h2 { font-family: var(--display); font-weight: 600; letter-spacing: -.065em; }
 h1 { max-width: 660px; margin-bottom: 20px; font-size: clamp(52px, 6.1vw, 79px); line-height: .99; }
@@ -146,7 +147,7 @@ h1 em, .contact-main h2 em { color: #b9e86b; font-style: normal; }
 .contact-main { padding: 86px 0 51px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, .08); }.contact-main .eyebrow { margin-bottom: 16px; color: #8fbf6e; }.contact-main h2 { margin: 0; font-size: clamp(54px, 7vw, 87px); line-height: .98; }.contact-main h2 em { color: var(--green); }
 .contact-button { width: 75px; height: 75px; display: grid; place-items: center; border-radius: 50%; background: var(--green); color: #0f1211; transition: background .2s; }.contact-button:hover { background: #c8f27d; }
 .contact-bottom { padding: 24px 0 67px; display: flex; align-items: flex-start; justify-content: space-between; gap: 40px; }.contact-bottom > p { max-width: 325px; margin: 0; color: #8a938c; font-size: 11px; line-height: 1.8; }.contact-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 13px 23px; }.contact-links a { display: inline-flex; align-items: center; gap: 7px; color: #c8d4c7; font-size: 10px; }
-.site-footer { min-height: 74px; display: flex; align-items: center; justify-content: space-between; gap: 15px; color: #5e6b61; font: 8px var(--mono); }.site-footer .wordmark { color: #e8ece6; font: 700 18px var(--display); }.back-top { display: inline-flex; align-items: center; gap: 7px; color: #8a9c8e; font: 9px var(--body); }
+.site-footer { min-height: 74px; display: flex; align-items: center; justify-content: center; gap: 15px; color: #8a938c; font: 10px var(--body); }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 @keyframes spin { to { transform: rotate(360deg); } }
 

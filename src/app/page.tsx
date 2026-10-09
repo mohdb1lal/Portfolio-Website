@@ -1,6 +1,5 @@
 import {
   ArrowDownRight,
-  ArrowRight,
   ArrowUpRight,
   Award,
   Code2,
@@ -37,8 +36,9 @@ export default function Home() {
         <div className="hero-copy">
           <div className="availability"><span className="status-dot" /> {portfolio.availability}</div>
           <p className="hero-kicker">{portfolio.location} <span>·</span> Available worldwide</p>
-          <h1>{portfolio.role}</h1>
-          <p className="hero-description">I&apos;m <strong>{portfolio.name}</strong>, a {portfolio.role.toLowerCase()} focused on Python, AWS, TypeScript, and full-stack product development.</p>
+          <h1>{portfolio.name}</h1>
+          <p className="hero-role">{portfolio.role}</p>
+          <p className="hero-description">{portfolio.intro}</p>
           <div className="hero-actions">
             <a className="button button-dark" href="#projects">View projects <ArrowDownRight size={17} /></a>
             <a className="text-link" href={`mailto:${portfolio.email}`}>Email <ArrowUpRight size={15} /></a>
@@ -101,7 +101,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="site-footer section-wrap"><a className="wordmark" href="#home">{initials}<span>.</span></a><span>© {new Date().getFullYear()} {portfolio.name}</span><a className="back-top" href="#home">Back to top <ArrowRight size={14} /></a></footer>
+      <footer className="site-footer section-wrap"><span>Designed &amp; Built by {portfolio.name}. v2.0.0</span></footer>
     </main>
   );
 }

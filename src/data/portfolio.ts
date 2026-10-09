@@ -30,7 +30,7 @@ export const portfolio: {
   certifications: Certification[];
 } = {
   name: "Mohammad Bilal",
-  role: "Software Engineer",
+  role: "Backend Engineer",
   location: "Chennai, Tamil Nadu",
   availability: "Open to opportunities",
   intro:
