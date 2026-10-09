@@ -80,7 +80,7 @@ export function Analytics() {
             <>
               <div className="lc-total"><strong>{leetcode.data.solved}</strong><span>problems solved</span><div className="lc-rating"><Trophy size={15} /> {leetcode.data.rating || "—"} rating</div></div>
               <div className="difficulty-list">
-                <Difficulty label="Easy" value={leetcode.data.easy} total={leetcode.data.solved} color="var(--green)" />
+                <Difficulty label="Easy" value={leetcode.data.easy} total={leetcode.data.solved} color="var(--accent)" />
                 <Difficulty label="Medium" value={leetcode.data.medium} total={leetcode.data.solved} color="var(--amber)" />
                 <Difficulty label="Hard" value={leetcode.data.hard} total={leetcode.data.solved} color="var(--coral)" />
               </div>
