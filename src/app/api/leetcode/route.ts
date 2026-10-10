@@ -10,18 +10,21 @@ const leetcodeQuery = `
         acSubmissionNum { difficulty count }
       }
       badges { id displayName icon }
+      userCalendar {
+        streak
+        totalActiveDays
+        submissionCalendar
+      }
     }
-    # userContestRanking(username: $username) {
-    #   attendedContestsCount
-    #   rating
-    #   globalRanking
-    #   topPercentage
-    # }
-    # userCalendar(username: $username) {
-    #   streak
-    #   totalActiveDays
-    #   submissionCalendar
-    # }
+    userContestRanking(username: $username) {
+      attendedContestsCount
+      rating
+      globalRanking
+      topPercentage
+    }
+    recentAcSubmissionList(username: $username, limit: 20) {
+      timestamp
+    }
   }
 `;
 
@@ -42,7 +45,7 @@ export async function GET() {
       next: { revalidate: 3600 },
     });
     if (!response.ok) {
-      return NextResponse.json({response:response, configured: true, data: null, message: "LeetCode analytics are temporarily unavailable." }, { status: 502 });
+      return NextResponse.json({ configured: true, data: null, message: "LeetCode analytics are temporarily unavailable." }, { status: 502 });
     }
 
     const payload = await response.json();
@@ -52,7 +55,12 @@ export async function GET() {
     }
 
     const counts = user.submitStats.acSubmissionNum as { difficulty: string; count: number }[];
-    const calendarText = payload.data.userCalendar?.submissionCalendar;
+    const recentSubmissions = payload.data.recentAcSubmissionList as { timestamp: string }[] | undefined;
+    if (!Array.isArray(recentSubmissions)) {
+      return NextResponse.json({ configured: true, data: null, message: "Could not load LeetCode submission history." }, { status: 502 });
+    }
+
+    const calendarText = user.userCalendar?.submissionCalendar;
     let activeDays = 0;
     if (calendarText) {
       try {
@@ -70,9 +78,11 @@ export async function GET() {
         easy: counts.find((item) => item.difficulty === "Easy")?.count ?? 0,
         medium: counts.find((item) => item.difficulty === "Medium")?.count ?? 0,
         hard: counts.find((item) => item.difficulty === "Hard")?.count ?? 0,
-        rating: Math.round(payload.data.userContestRanking?.rating ?? 0),
+        rating: payload.data.userContestRanking?.rating == null
+          ? null
+          : Math.round(payload.data.userContestRanking.rating),
         contests: payload.data.userContestRanking?.attendedContestsCount ?? 0,
-        streak: payload.data.userCalendar?.streak ?? 0,
+        bestRecentStreak: getBestAcceptedStreak(recentSubmissions),
         activeDays,
         badges: (user.badges as { id: string; displayName: string; icon: string }[]).slice(0, 3),
       },
@@ -82,4 +92,23 @@ export async function GET() {
     console.error("LeetCode API Error:", err);
     return NextResponse.json({error:"check log", configured: true, data: null, message: "LeetCode analytics are temporarily unavailable." }, { status: 502 });
   }
+}
+
+function getBestAcceptedStreak(submissions: { timestamp: string }[]) {
+  const days = [...new Set(submissions
+    .map(({ timestamp }) => Math.floor(Number(timestamp) / 86_400))
+    .filter(Number.isFinite))]
+    .sort((a, b) => a - b);
+
+  let bestStreak = 0;
+  let currentStreak = 0;
+  let previousDay: number | undefined;
+
+  for (const day of days) {
+    currentStreak = previousDay !== undefined && day === previousDay + 1 ? currentStreak + 1 : 1;
+    bestStreak = Math.max(bestStreak, currentStreak);
+    previousDay = day;
+  }
+
+  return bestStreak;
 }

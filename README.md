@@ -18,7 +18,7 @@ A one-page, responsive portfolio built with Next.js App Router, TypeScript, and 
 ## Analytics
 
 - `GET /api/github` uses GitHub GraphQL server-side. Set `GITHUB_USERNAME` and a read-only `GITHUB_TOKEN`; the token is never sent to the browser. Returned public profile data is cached for one hour.
-- `GET /api/leetcode` calls LeetCode's GraphQL endpoint server-side using `LEETCODE_USERNAME` and caches the result for one hour. LeetCode's endpoint is unofficial and can change or rate-limit; the interface degrades gracefully if the service is unavailable.
+- `GET /api/leetcode` calls LeetCode's GraphQL endpoint server-side using `LEETCODE_USERNAME` and caches the result for one hour. Its best recent accepted-submission streak is calculated from the latest 20 public accepted submissions, so it is not an all-time record. LeetCode's endpoint is unofficial and can change or rate-limit; the interface degrades gracefully if the service is unavailable.
 - The homepage snapshot and detailed analytics panels both use these endpoints. Metrics display as unavailable until configured rather than making up numbers.
 
 For Vercel deployment, import the GitHub repository, add the same server-side environment variables in Project Settings, and deploy. Never commit `.env.local` or a token.

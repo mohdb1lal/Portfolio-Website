@@ -20,9 +20,9 @@ type LeetCodeData = {
   easy: number;
   medium: number;
   hard: number;
-  rating: number;
+  rating: number | null;
   contests: number;
-  streak: number;
+  bestRecentStreak: number;
   activeDays: number;
   badges: { id: string; displayName: string; icon: string }[];
 };
@@ -78,14 +78,14 @@ export function Analytics() {
           </div>
           {loading ? <div className="data-state"><span className="loader" /> Syncing public profile…</div> : leetcode?.data ? (
             <>
-              <div className="lc-total"><strong>{leetcode.data.solved}</strong><span>problems solved</span><div className="lc-rating"><Trophy size={15} /> {leetcode.data.rating || "—"} rating</div></div>
+              <div className="lc-total"><strong>{leetcode.data.solved}</strong><span>problems solved</span>{leetcode.data.rating !== null && <div className="lc-rating"><Trophy size={15} /> {leetcode.data.rating} rating</div>}</div>
               <div className="difficulty-list">
                 <Difficulty label="Easy" value={leetcode.data.easy} total={leetcode.data.solved} color="var(--accent)" />
                 <Difficulty label="Medium" value={leetcode.data.medium} total={leetcode.data.solved} color="var(--amber)" />
                 <Difficulty label="Hard" value={leetcode.data.hard} total={leetcode.data.solved} color="var(--coral)" />
               </div>
               {leetcode.data.badges.length > 0 && <div className="badge-row">{leetcode.data.badges.map((badge) => <span key={badge.id}><Trophy size={11} /> {badge.displayName}</span>)}</div>}
-              <div className="analytics-foot"><span><Flame size={15} /> {leetcode.data.streak} day streak</span><span>{leetcode.data.activeDays} active days · {leetcode.data.contests} contests</span></div>
+              <div className="analytics-foot"><span title="Longest consecutive-day run found in the latest 20 accepted submissions returned by LeetCode. This is not an all-time record."><Flame size={15} /> Best recent: {leetcode.data.bestRecentStreak} day streak</span><span>{leetcode.data.activeDays} active days{leetcode.data.contests > 0 && ` · ${leetcode.data.contests} contests`}</span></div>
             </>
           ) : <SetupState message={leetcode?.message ?? "Live stats will appear here once configured."} href={`https://leetcode.com/u/${encodeURIComponent(leetcodeName)}/`} />}
         </article>
